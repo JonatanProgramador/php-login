@@ -6,13 +6,13 @@ class Migration
     public static  function start($mode)
     {
 
-        $migrations = scandir(RUTA . 'database/migrations/');
+        $migrations = scandir(RUTA . 'app/database/migrations/');
         unset($migrations[0]);
         unset($migrations[1]);
 
 
         foreach ($migrations as $migra) {
-            require_once RUTA . 'database/migrations/' . $migra;
+            require_once RUTA . 'app/database/migrations/' . $migra;
         }
 
         $migrations = array_map(function ($migra) {

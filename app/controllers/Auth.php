@@ -1,7 +1,7 @@
 <?php
-require_once RUTA . "requests/UserRequest.php";
-require_once RUTA . "models/UserModel.php";
-require_once RUTA . "resourcers/UserResourcer.php";
+require_once RUTA . "app/requests/UserRequest.php";
+require_once RUTA . "app/models/UserModel.php";
+require_once RUTA . "app/resourcers/UserResourcer.php";
 class Auth
 {
     public function store(): void
