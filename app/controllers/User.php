@@ -1,6 +1,6 @@
 <?php
-require_once RUTA . "requests/UserRequest.php";
-require_once RUTA . "models/UserModel.php";
+require_once RUTA . "app/requests/UserRequest.php";
+require_once RUTA . "app/models/UserModel.php";
 
 class User
 {

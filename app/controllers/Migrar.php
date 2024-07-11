@@ -1,5 +1,5 @@
 <?php
-require_once RUTA . "database/Migration.php";
+require_once RUTA . "app/database/Migration.php";
 class Migrar {
     public function index() :void
     {

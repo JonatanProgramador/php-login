@@ -1,6 +1,6 @@
 <?php
 
-require_once RUTA. "models/UserModel.php";
+require_once RUTA. "app/models/UserModel.php";
 
 class CreateTableUser {
 

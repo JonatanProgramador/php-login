@@ -22,10 +22,10 @@ class Core
 
   private function existsController(): bool
   {
-    if (count($this->url) < 3 && file_exists('../app/controllers/' . ucwords($this->url[0]) . '.php')) {
+    if (count($this->url) < 3 && file_exists(RUTA.'app/controllers/' . ucwords($this->url[0]) . '.php')) {
       $this->controller = ucwords($this->url[0]);
       unset($this->url[0]);
-      require_once '../app/controllers/' . $this->controller . '.php';
+      require_once RUTA.'/app/controllers/' . $this->controller . '.php';
       return true;
     } else {
       return false;
