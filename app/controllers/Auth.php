@@ -1,0 +1,39 @@
+<?php
+require_once RUTA . "requests/UserRequest.php";
+require_once RUTA . "models/UserModel.php";
+require_once RUTA . "resourcers/UserResourcer.php";
+class Auth
+{
+    public function store(): void
+    {
+        $request = new UserRequest();
+        if ($request->isValid()) {
+            $user = new UserModel();
+            $data = json_decode(file_get_contents('php://input'), true);
+            $user->find(["name" => $data["name"]]);
+            if(count(Response::$data)>0) {
+                if(Response::$data[0]["password"] == hash("sha256",$data["password"])) {
+                    $resourcer = new UserResourcer();
+                    Response::$data = $resourcer->get();
+                    Response::$code = 200;
+                    Response::$message = "Contraseña correcta";
+
+                } else {
+                    Response::$code = 205;
+                    Response::$data = null;
+                    Response::$message = "Contraseña incorrecta";   
+                }
+            } else {
+                Response::$code = 204;
+                Response::$data = null;
+                Response::$message = "Usuario no registrado";
+            }
+        } else {
+            Response::$code = 500;
+            Response::$data = null;
+            Response::$message = "Datos no validos";
+        }
+        
+        Response::send();
+    }
+}
