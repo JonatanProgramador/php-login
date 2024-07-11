@@ -4,7 +4,7 @@ require_once RUTA . "app/models/UserModel.php";
 require_once RUTA . "app/resourcers/UserResourcer.php";
 class Auth
 {
-    public function store(): void
+    public static function  store(): void
     {
         $request = new UserRequest();
         if ($request->isValid()) {
