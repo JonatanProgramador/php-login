@@ -4,17 +4,17 @@ require_once RUTA . "app/models/UserModel.php";
 
 class User
 {
-  public function index(): void
+  public static function index(): void
   {
     echo "Index";
   }
 
-  public function show($id): void
+  public static function show($id): void
   {
     echo "Ver " . $id;
   }
 
-  public function store(): void
+  public static function store(): void
   {
     $request = new UserRequest();
     if ($request->isValid()) {
@@ -29,12 +29,12 @@ class User
     Response::send();
   }
 
-  public function update($id): void
+  public static function update($id): void
   {
     echo "actualizando " . $id;
   }
 
-  public function delete($id): void
+  public static function delete($id): void
   {
     echo "eliminando " . $id;
   }

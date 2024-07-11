@@ -1,12 +1,12 @@
 <?php
 require_once RUTA . "app/database/Migration.php";
 class Migrar {
-    public function index() :void
+    public static function index() :void
     {
         Migration::start("run");
     }
 
-    public function delete($id) :void
+    public static function delete($id) :void
     {
         Migration::start("drop");
     }

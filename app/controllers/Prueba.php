@@ -1,25 +1,25 @@
 <?php
 class Prueba {
-    public function index() :void
+    public static function index() :void
     {
     }
 
-    public function show($id) :void
+    public static function show($id) :void
     {
         echo "Ver ".$id;
     }
 
-    public function store() :void
+    public static function store() :void
     {
         echo "creando";
     }
 
-    public function update($id) :void
+    public static function update($id) :void
     {
         echo "actualizando ".$id;
     }
 
-    public function delete($id) :void
+    public static function delete($id) :void
     {
         echo "eliminando ".$id;
     }
