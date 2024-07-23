@@ -11,7 +11,7 @@ class Request {
     {  
         $valid = true;
         $index = 0;
-        $data = json_decode(file_get_contents('php://input'));
+        $data = json_decode(file_get_contents('php://input'), true);
         while($valid && $index < count($this->columns)) {
             $valid = array_key_exists($this->columns[$index], $data);
             $index++;
