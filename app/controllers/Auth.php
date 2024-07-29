@@ -11,7 +11,7 @@ class Auth
             $user = new UserModel();
             $data = json_decode(file_get_contents('php://input'), true);
             $user->find(["name" => $data["name"]]);
-            if(count(Response::$data)>0) {
+            if(Response::$data !== null && count(Response::$data)>0) {
                 if(Response::$data[0]["password"] == hash("sha256",$data["password"])) {
                     $resourcer = new UserResourcer();
                     Response::$data = $resourcer->get();
