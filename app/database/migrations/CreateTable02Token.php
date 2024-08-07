@@ -22,7 +22,7 @@ public static function run()
     $expire = new Column("expire", Column::DATE);
     $expire->notNull();
 
-    $tokenTable ->create([$id, $userId]);
+    $tokenTable ->create([$id, $userId, $token, $expire]);
     Response::send();
 }
 
