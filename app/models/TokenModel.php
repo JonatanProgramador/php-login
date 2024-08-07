@@ -1,6 +1,6 @@
 <?php
 require_once "Model.php";
-class UserModel extends Model {
+class TokenModel extends Model {
 
     public function __construct()
     {

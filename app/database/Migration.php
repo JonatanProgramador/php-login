@@ -19,6 +19,8 @@ class Migration
             return substr($migra, 0, -4);
         }, $migrations);
 
+        $migrations = $mode == "drop"?array_reverse($migrations):$migrations;
+
         foreach ($migrations as $migra) {
             call_user_func_array([$migra, $mode], []);
         }

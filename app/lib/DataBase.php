@@ -19,12 +19,12 @@ class DataBase
         $result = $link->query($querry);
         if ($result) {
           mysqli_close($link);
-          Response::$message = StatusCode::DB_SUCCESS_CREATE_TABLE;
+          Response::$message = StatusCode::DB_SUCCESS_CREATE_TABLE . " " . $table;
           Response::$code = 200;
         } else {
           Response::$error = mysqli_error($link);
           mysqli_close($link);
-          Response::$message = StatusCode::DB_ERROR_CREATE_TABLE;
+          Response::$message = StatusCode::DB_ERROR_CREATE_TABLE . " " . $table;
           Response::$code  = 500;
         }
       } else {
@@ -44,12 +44,12 @@ class DataBase
         $result = $link->query($querry);
         if ($result) {
           mysqli_close($link);
-          Response::$message = StatusCode::DB_SUCCESS_DELETE_TABLE;
+          Response::$message = StatusCode::DB_SUCCESS_DELETE_TABLE . " " . $table;;
           Response::$code = 200;
         } else {
           Response::$error = mysqli_error($link);
           mysqli_close($link);
-          Response::$message = StatusCode::DB_ERROR_DELETE_TABLE;
+          Response::$message = StatusCode::DB_ERROR_DELETE_TABLE . " " . $table;
           Response::$code = 500;
         }
       } else {
