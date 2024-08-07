@@ -2,7 +2,7 @@
 
 require_once RUTA. "app/models/UserModel.php";
 
-class CreateTableUser {
+class CreateTable01User {
 
    
     public static function run() 

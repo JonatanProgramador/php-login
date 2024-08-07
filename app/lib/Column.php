@@ -5,6 +5,7 @@ class Column
   public const STRING = "varchar(80)";
   public const INTEGER = "INT";
   public const TEXT = "LONGTEXT";
+  public const DATE = "DATE";
 
   public function __construct($name, $type)
   {
@@ -29,6 +30,11 @@ class Column
   public function unique() 
   {
     $this->column = $this->column . " UNIQUE";
+  }
+
+  public function foreignKey($table, $name) 
+  {
+    $this->column = $this->column . " REFERENCES ".$table."(".$name.")";
   }
 
   public function get()
