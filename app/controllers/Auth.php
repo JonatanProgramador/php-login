@@ -2,6 +2,7 @@
 require_once RUTA . "app/requests/UserRequest.php";
 require_once RUTA . "app/models/UserModel.php";
 require_once RUTA . "app/resourcers/UserResourcer.php";
+
 class Auth
 {
     public static function  store(): void
@@ -13,10 +14,12 @@ class Auth
             $user->find(["name" => $data["name"]]);
             if(Response::$data !== null && count(Response::$data)>0) {
                 if(Response::$data[0]["password"] == hash("sha256",$data["password"])) {
-                    $resourcer = new UserResourcer();
+                    $resourcer = new UserResourcer(); 
                     Response::$data = $resourcer->get();
+                    Token::generateToken(Response::$data["id"]);
                     Response::$code = 200;
                     Response::$message = "Contraseña correcta";
+                    
 
                 } else {
                     Response::$code = 205;
