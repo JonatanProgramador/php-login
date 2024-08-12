@@ -16,6 +16,6 @@ class StatusCode {
     const DB_SUCCESS_UPDATE_ROW = "Fila actualizada.";
     const DB_ERROR_UPDATE_ROW = "Error al actualizar la fila.";
 
-    const DB_SUCCESS_DELETE_ROW = "Fila actualizada.";
-    const DB_ERROR_DELETE_ROW = "Error al actualizar la fila.";
+    const DB_SUCCESS_DELETE_ROW = "Fila eliminada.";
+    const DB_ERROR_DELETE_ROW = "Error al eliminar la fila.";
 }

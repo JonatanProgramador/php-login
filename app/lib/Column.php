@@ -5,7 +5,7 @@ class Column
   public const STRING = "varchar(80)";
   public const INTEGER = "INT";
   public const TEXT = "LONGTEXT";
-  public const DATE = "DATE";
+  public const DATE = "DATETIME";
 
   public function __construct($name, $type)
   {
