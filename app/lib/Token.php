@@ -11,14 +11,10 @@ class Token
         $tokenModel = new TokenModel();
         $TIME = 3;
         $token = bin2hex(random_bytes(10));
-        print($token . "\n");
         date_default_timezone_set("Europe/Madrid");
         $hora = date_create(date("H:i:s"));
         $hora->add(DateInterval::createFromDateString($TIME . ' minutes'));
-        print($hora->format("H:i:s") . "\n");
-        print(date("y-m-d"));
         $tokenModel->insert(["user_id" => $user, "token" => $token, "expire" => date("y-m-d") . " " . $hora->format("H:i:s")]);
-        Response::send();
     }
 
     static function compareToken($token)
