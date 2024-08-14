@@ -16,11 +16,10 @@ class Auth
                 if(Response::$data[0]["password"] == hash("sha256",$data["password"])) {
                     $resourcer = new UserResourcer(); 
                     Response::$data = $resourcer->get();
-                    Token::generateToken(Response::$data["id"]);
+                    $token = Token::generateToken(Response::$data["id"]);
                     Response::$code = 200;
+                    Response::$data = ["token" => $token];
                     Response::$message = "Contraseña correcta";
-                    
-
                 } else {
                     Response::$code = 205;
                     Response::$data = null;
@@ -36,7 +35,6 @@ class Auth
             Response::$data = null;
             Response::$message = "Datos no validos";
         }
-        
         Response::send();
     }
 }

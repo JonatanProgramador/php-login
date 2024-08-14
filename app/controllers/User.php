@@ -1,6 +1,8 @@
 <?php
 require_once RUTA . "app/requests/UserRequest.php";
+require_once RUTA . "app/requests/UserTokenRequest.php";
 require_once RUTA . "app/models/UserModel.php";
+require_once RUTA . "app/resourcers/UserResourcer.php";
 
 class User
 {
@@ -11,7 +13,32 @@ class User
 
   public static function show($id): void
   {
-    echo "Ver " . $id;
+    $request = new UserTokenRequest();
+    if ($request->isValid()) {
+      $user = new UserModel();
+      $data = json_decode(file_get_contents('php://input'), true);
+      $token = $data["token"];
+      if (Token::compareToken($token)) {
+        if (Response::$data[0]["user_id"] == $id) {
+          $user->findById($id);
+          $resourcer = new UserResourcer();
+          Response::$data = $resourcer->get();
+        } else {
+          Response::$code = 500;
+          Response::$message = "El token no coicide con el usuario";
+          Response::$data = null;
+        }
+      } else {
+        Response::$code = 500;
+        Response::$message = "Token error";
+        Response::$data = null;
+      }
+    } else {
+      Response::$code = 500;
+      Response::$message = "Datos no validos";
+      Response::$data = null;
+    }
+    Response::send();
   }
 
   public static function store(): void
@@ -23,8 +50,8 @@ class User
       $data["password"] = hash("sha256", $data["password"]);
       $user->insert($data);
     } else {
-     Response::$code=500;
-     Response::$message = "Datos no validos";
+      Response::$code = 500;
+      Response::$message = "Datos no validos";
     }
     Response::send();
   }

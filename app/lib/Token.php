@@ -15,6 +15,7 @@ class Token
         $hora = date_create(date("H:i:s"));
         $hora->add(DateInterval::createFromDateString($TIME . ' minutes'));
         $tokenModel->insert(["user_id" => $user, "token" => $token, "expire" => date("y-m-d") . " " . $hora->format("H:i:s")]);
+        return $token;
     }
 
     static function compareToken($token)
@@ -40,6 +41,5 @@ class Token
     {
         $tokenModel = new TokenModel();
         $tokenModel->deleteById($id);
-        Response::send();
     }
 }
