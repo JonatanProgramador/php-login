@@ -18,18 +18,23 @@ class Token
         return $token;
     }
 
-    static function compareToken($token)
+    static function compareToken()
     {
-        $tokenModel = new TokenModel();
-        $tokenModel->find(["token" => $token]);
-        if (count(Response::$data) > 0) {
-            date_default_timezone_set("Europe/Madrid");
-            $nowDate = date_create(date("y-m-d H:i:s"));
-            $date = date_create(Response::$data[0]["expire"]);
-            if ($date > $nowDate) {
-                return true;
+        $token = explode(" ", apache_request_headers()["Authorization"])[1];
+        if (!empty($token)) {
+            $tokenModel = new TokenModel();
+            $tokenModel->find(["token" => $token]);
+            if (count(Response::$data) > 0) {
+                date_default_timezone_set("Europe/Madrid");
+                $nowDate = date_create(date("y-m-d H:i:s"));
+                $date = date_create(Response::$data[0]["expire"]);
+                if ($date > $nowDate) {
+                    return true;
+                } else {
+                    Token::deleteToken(Response::$data[0]["id"]);
+                    return false;
+                }
             } else {
-                Token::deleteToken(Response::$data[0]["id"]);
                 return false;
             }
         } else {
