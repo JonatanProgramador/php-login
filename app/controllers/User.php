@@ -13,12 +13,9 @@ class User
 
   public static function show($id): void
   {
-    $request = new UserTokenRequest();
-    if ($request->isValid()) {
       $user = new UserModel();
-      $data = json_decode(file_get_contents('php://input'), true);
-      $token = $data["token"];
-      if (Token::compareToken($token)) {
+ 
+      if (Token::compareToken()) {
         if (Response::$data[0]["user_id"] == $id) {
           $user->findById($id);
           $resourcer = new UserResourcer();
@@ -33,11 +30,6 @@ class User
         Response::$message = "Token error";
         Response::$data = null;
       }
-    } else {
-      Response::$code = 500;
-      Response::$message = "Datos no validos";
-      Response::$data = null;
-    }
     Response::send();
   }
 

@@ -5,20 +5,18 @@ require_once RUTA . "app/resourcers/UserResourcer.php";
 
 class Auth
 {
-    public static function  store(): void
+    public static function  index(): void
     {
-        $request = new UserRequest();
-        if ($request->isValid()) {
+        if (!empty($_SERVER["PHP_AUTH_USER"]) && !empty($_SERVER["PHP_AUTH_PW"])) {
             $user = new UserModel();
-            $data = json_decode(file_get_contents('php://input'), true);
-            $user->find(["name" => $data["name"]]);
+            $user->find(["name" => $_SERVER["PHP_AUTH_USER"]]);
             if(Response::$data !== null && count(Response::$data)>0) {
-                if(Response::$data[0]["password"] == hash("sha256",$data["password"])) {
+                if(Response::$data[0]["password"] == hash("sha256",$_SERVER["PHP_AUTH_PW"])) {
                     $resourcer = new UserResourcer(); 
                     Response::$data = $resourcer->get();
                     $token = Token::generateToken(Response::$data["id"]);
                     Response::$code = 200;
-                    Response::$data = ["token" => $token];
+                    Response::$data = ["id" => Response::$data["id"], "token" => $token];
                     Response::$message = "Contraseña correcta";
                 } else {
                     Response::$code = 205;
