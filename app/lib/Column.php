@@ -7,7 +7,7 @@ class Column
   public const TEXT = "LONGTEXT";
   public const DATE = "DATETIME";
 
-  public function __construct($name, $type)
+  public function __construct($name="", $type="")
   {
     $this->column = $name . " " . $type;
   }
@@ -25,6 +25,12 @@ class Column
   public function primaryKey()
   {
     $this->column = $this->column . " PRIMARY KEY";
+  }
+
+  public function primaryKeyConstraint($column)
+  {
+    $this->column = " CONSTRAINT PK_".$column[0]." PRIMARY KEY "."(".$column[0].",".$column[1].")";
+    //CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
   }
 
   public function unique() 
