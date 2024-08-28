@@ -1,7 +1,12 @@
 <?php
+require_once RUTA. "app/models/RolModel.php";
+
 class Prueba {
     public static function index() :void
     {
+        $rolModel = new RolModel();
+        $rolModel->insert(["user_id"=>2,"rol"=>"admins"]);
+        Response::send();
     }
 
     public static function show($id) :void
