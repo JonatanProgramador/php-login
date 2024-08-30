@@ -162,7 +162,13 @@ class DataBase
     try {
       $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       if ($link) {
-        $querry = "SELECT * FROM " . $table . " WHERE " . array_keys($where)[0] . " = '" . $where[array_keys($where)[0]] . "';";
+        $querry = "SELECT * FROM " . $table . " WHERE ";
+        foreach($where as $clave => $valor) {
+          $querry = $querry . $clave . " = '" . $valor . "' AND "; 
+        }
+        
+        $querry = substr($querry, 0, -5);
+        $querry = $querry . ";";
         $consult = $link->query($querry);
         if ($consult) {
           $result = [];
