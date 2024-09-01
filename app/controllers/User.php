@@ -8,28 +8,42 @@ class User
 {
   public static function index(): void
   {
-    echo "Index";
+    $user = new UserModel();
+    if (Token::compareToken()) {
+      if (Rol::compareRol(Response::$data[0]["user_id"], "admin")) {
+        $user->get();
+      } else {
+        Response::$code = 500;
+        Response::$message = "No tienes permisos";
+        Response::$data = null;
+      }
+    } else {
+      Response::$code = 500;
+      Response::$message = "Token error";
+      Response::$data = null;
+    }
+    Response::send();
   }
 
   public static function show($id): void
   {
-      $user = new UserModel();
- 
-      if (Token::compareToken()) {
-        if (Response::$data[0]["user_id"] == $id) {
-          $user->findById($id);
-          $resourcer = new UserResourcer();
-          Response::$data = $resourcer->get();
-        } else {
-          Response::$code = 500;
-          Response::$message = "El token no coicide con el usuario";
-          Response::$data = null;
-        }
+    $user = new UserModel();
+
+    if (Token::compareToken()) {
+      if (Response::$data[0]["user_id"] == $id) {
+        $user->findById($id);
+        $resourcer = new UserResourcer();
+        Response::$data = $resourcer->get();
       } else {
         Response::$code = 500;
-        Response::$message = "Token error";
+        Response::$message = "El token no coicide con el usuario";
         Response::$data = null;
       }
+    } else {
+      Response::$code = 500;
+      Response::$message = "Token error";
+      Response::$data = null;
+    }
     Response::send();
   }
 

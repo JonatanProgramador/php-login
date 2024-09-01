@@ -13,6 +13,6 @@ class Rol
     {
         $modelRol = new RolModel();
         $modelRol->find(["user_id"=>$user_id, "rol"=>$rol]);
-        return Response::$code == 200;
+        return count(Response::$data) != 0;
     }
 }
