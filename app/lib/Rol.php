@@ -15,4 +15,11 @@ class Rol
         $modelRol->find(["user_id"=>$user_id, "rol"=>$rol]);
         return count(Response::$data) != 0;
     }
+
+    public static function getRol($user_id)
+    {
+        $modelRol = new RolModel();
+        $modelRol->find(["user_id"=>$user_id]);
+        return array_map(function($value) {return $value["rol"];}, Response::$data);
+    }
 }
