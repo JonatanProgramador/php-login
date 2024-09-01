@@ -14,8 +14,10 @@ const USERDATASEED = [
     {
         $userModel = new UserModel();
         foreach(USERDATASEED as $data) {
+            $data["password"] = hash("sha256", $data["password"]);
             $userModel->insert($data);
             Response::send();
         }
+        Rol::setRol(1, "admin");
     }
  }
