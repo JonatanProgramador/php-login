@@ -10,10 +10,13 @@ class Resourcers {
     public function get() 
     {
         $exit = [];
-        foreach($this->columns as $column) {
-            $exit[$column] = Response::$data[0][$column];
+        foreach(Response::$data as $da) {
+            $row = [];
+            foreach($this->columns as $column) {
+                $row[$column] = $da[$column];
+            }
+            array_push($exit, $row);
         }
-
         return $exit;
     }
 }

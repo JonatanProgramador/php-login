@@ -13,12 +13,13 @@ class Auth
             if (Response::$data !== null && count(Response::$data) > 0) {
                 if (Response::$data[0]["password"] == hash("sha256", $_SERVER["PHP_AUTH_PW"])) {
                     $resourcer = new UserResourcer();
-                    Response::$data = $resourcer->get();
-                    $token = Token::generateToken(Response::$data["id"]);
-                    $roles = Rol::getRol(Response::$data["id"]);
+                    Response::$data = $resourcer->get()[0];
+                    $id = Response::$data["id"];
+                    $token = Token::generateToken($id);
+                    $roles = Rol::getRol($id);
                     $roles = count($roles) == 0 ? null : $roles;
                     Response::$code = 200;
-                    Response::$data = ["id" => Response::$data["id"], "token" => $token, "rol" => $roles ];
+                    Response::$data = ["id" => $id, "token" => $token, "rol" => $roles ];
                     Response::$message = "Contraseña correcta";
                 } else {
                     Response::$code = 205;

@@ -12,6 +12,8 @@ class User
     if (Token::compareToken()) {
       if (Rol::compareRol(Response::$data[0]["user_id"], "admin")) {
         $user->get();
+        $resourcer = new UserResourcer();
+        Response::$data = $resourcer->get();
       } else {
         Response::$code = 500;
         Response::$message = "No tienes permisos";
@@ -33,7 +35,7 @@ class User
       if (Response::$data[0]["user_id"] == $id) {
         $user->findById($id);
         $resourcer = new UserResourcer();
-        Response::$data = $resourcer->get();
+        Response::$data = $resourcer->get()[0];
       } else {
         Response::$code = 500;
         Response::$message = "El token no coicide con el usuario";
