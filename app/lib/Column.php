@@ -30,7 +30,11 @@ class Column
   public function primaryKeyConstraint($column)
   {
     $this->column = " CONSTRAINT PK_".$column[0]." PRIMARY KEY "."(".$column[0].",".$column[1].")";
-    //CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+  }
+
+  public function defaultValue($value) 
+  {
+    $this->column = $this->column. " DEFAULT '".$value."'";
   }
 
   public function unique() 

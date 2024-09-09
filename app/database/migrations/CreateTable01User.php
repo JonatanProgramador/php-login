@@ -23,7 +23,11 @@ class CreateTable01User {
 
         $message = new Column("message", Column::TEXT);
 
-        $user->create([$id, $nombre, $password, $message]);
+        $emailConfirm = new Column("emailConfirm", Column::STRING);
+        $emailConfirm->notNull();
+        $emailConfirm->defaultValue("FALSE");
+
+        $user->create([$id, $nombre, $password, $message, $emailConfirm]);
         Response::send();
     }
 
