@@ -4,7 +4,7 @@
 class Prueba {
     public static function index() :void
     {
-     
+        
     }
 
     public static function show($id) :void
