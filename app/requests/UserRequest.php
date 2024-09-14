@@ -5,6 +5,6 @@ class UserRequest extends Request {
 
     public function __construct()
     {
-        parent::__construct(["name", "password"]);
+        parent::__construct(["name", "password", "email"]);
     }
 }

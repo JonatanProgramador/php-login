@@ -11,6 +11,7 @@ class CreateTable04VerificationCode
         $id = new Column("id", Column::INTEGER);
         $id->notNull();
         $id->primaryKey();
+        $id->autoIncrement();
 
         $user = new Column("user_id", Column::INTEGER);
         $user->notNull();

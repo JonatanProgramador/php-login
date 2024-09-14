@@ -49,14 +49,20 @@ class User
     Response::send();
   }
 
+
   public static function store(): void
   {
     $request = new UserRequest();
     if ($request->isValid()) {
+
       $user = new UserModel();
       $data = json_decode(file_get_contents('php://input'), true);
       $data["password"] = hash("sha256", $data["password"]);
       $user->insert($data);
+      
+      $user_id = $user->find(["name"=>$data["name"]]);
+      $code = ConfirmEmail::generate($user_id);
+      ConfirmEmail::generate($code);
     } else {
       Response::$code = 500;
       Response::$message = "Datos no validos";
