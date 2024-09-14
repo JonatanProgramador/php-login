@@ -18,6 +18,10 @@ class CreateTable01User {
         $nombre->notNull();
         $nombre->unique();
 
+        $email = new Column("email", Column::STRING);
+        $email->notNull();
+        $email->unique();
+
         $password = new Column("password", Column::STRING);
         $password->notNull();
 
@@ -27,7 +31,7 @@ class CreateTable01User {
         $emailConfirm->notNull();
         $emailConfirm->defaultValue("FALSE");
 
-        $user->create([$id, $nombre, $password, $message, $emailConfirm]);
+        $user->create([$id, $nombre, $email, $password, $message, $emailConfirm]);
         Response::send();
     }
 
