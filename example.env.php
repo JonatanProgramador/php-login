@@ -10,3 +10,4 @@ const EMAIL_PASSWORD = "";
 const EMAIL_PORT = 0;
 
 const RUTA = "/var/www/html/login/";
+const HOST = "http://localhost/";

@@ -23,7 +23,9 @@ class Auth
                         Response::$data = ["id" => $id, "token" => $token, "rol" => $roles];
                         Response::$message = "Contraseña correcta";
                     } else {
-                        ConfirmEmail::generate(Response::$data[0]["id"]);
+                        $url = HOST."confirmaremail/".ConfirmEmail::generate(Response::$data[0]["id"]);
+                        $email = new Email(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
+                        $email->send();
                         Response::$code = 206;
                         Response::$data = null;
                         Response::$message = "Email no confirmado";

@@ -61,8 +61,10 @@ class User
       $user->insert($data);
       
       $user_id = $user->find(["name"=>$data["name"]]);
-      $code = ConfirmEmail::generate($user_id);
-      ConfirmEmail::generate($code);
+      $code = ConfirmEmail::generate($user_id[0]["id"]);
+      $url = HOST."confirmaremail/".$code;
+      $email = new Email($user_id[0]["name"], $user_id[0]["email"], "Confirm Email", "Confirmar email", $url);
+      $email->send();
     } else {
       Response::$code = 500;
       Response::$message = "Datos no validos";
