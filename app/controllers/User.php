@@ -59,12 +59,17 @@ class User
       $data = json_decode(file_get_contents('php://input'), true);
       $data["password"] = hash("sha256", $data["password"]);
       $user->insert($data);
-      
-      $user_id = $user->find(["name"=>$data["name"]]);
-      $code = ConfirmEmail::generate($user_id[0]["id"]);
-      $url = HOST."confirmaremail/".$code;
-      $email = new Email($user_id[0]["name"], $user_id[0]["email"], "Confirm Email", "Confirmar email", $url);
+
+      $user->find(["name" => $data["name"]]);
+
+      $code = ConfirmEmail::generate(Response::$data[0]["id"]);
+      $url = HOST . "confirmaremail/" . $code;
+      $email = new Email(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
       $email->send();
+      if (Response::$code == 200) {
+        Response::$error = null;
+      }
+      Response::$data = null;
     } else {
       Response::$code = 500;
       Response::$message = "Datos no validos";
