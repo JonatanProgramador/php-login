@@ -3,15 +3,22 @@ require_once RUTA . "app/requests/UserRequest.php";
 require_once RUTA . "app/requests/UserTokenRequest.php";
 require_once RUTA . "app/models/UserModel.php";
 require_once RUTA . "app/resourcers/UserResourcer.php";
+require_once RUTA . "app/models/RolModel.php";
 
 class User
 {
   public static function index(): void
   {
     $user = new UserModel();
+   
     if (Token::compareToken()) {
       if (Rol::compareRol(Response::$data[0]["user_id"], "admin")) {
         $user->get();
+        $users_data = Response::$data;
+        Response::$data = array_map(function($value) {
+          $value["rols"] = Rol::getRol($value["id"]);
+          return $value;
+        }, $users_data);
         $resourcer = new UserResourcer();
         Response::$data = $resourcer->get();
       } else {
@@ -30,10 +37,12 @@ class User
   public static function show($id): void
   {
     $user = new UserModel();
-
     if (Token::compareToken()) {
       if (Response::$data[0]["user_id"] == $id) {
         $user->findById($id);
+        $user_data = Response::$data; 
+        $user_data[0]["rols"] = Rol::getRol($id);
+        Response::$data = $user_data;
         $resourcer = new UserResourcer();
         Response::$data = $resourcer->get()[0];
       } else {

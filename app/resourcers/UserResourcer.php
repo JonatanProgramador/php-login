@@ -5,6 +5,6 @@ class UserResourcer extends Resourcers
 
     function __construct()
     {
-        parent::__construct(["name", "message", "id", "email"]);
+        parent::__construct(["name", "message", "id", "email", "rols"]);
     }
 }
