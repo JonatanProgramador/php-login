@@ -12,27 +12,22 @@ require_once RUTA. "app/PHPMailer/src/SMTP.php";
 
 class Email
 {
-    private $email;
-
-    public function __construct($fromName, $address, $toName, $subject, $body)
-    {
-        $this->email = new PHPMailer();
-        $this->email->isSMTP();
-        $this->email->Host = EMAIL_HOST;
-        $this->email->SMTPAuth  = true;
-        $this->email->Username  = EMAIL_NAME;
-        $this->email->Password  = EMAIL_PASSWORD;
-        $this->email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $this->email->Port  = EMAIL_PORT;
-        $this->email->setFrom(EMAIL_NAME, $fromName);
-        $this->email->addAddress($address, $toName);
-        $this->email->isHTML(true);
-        $this->email->Subject = $subject;
-        $this->email->Body  = $body;
-        $this->email->AltBody = $body;
-    }
-
-    public function send() {
-        $this->email->send();
+    
+    public static function send($fromName, $address, $toName, $subject, $body) {
+        $email = new PHPMailer();
+        $email->isSMTP();
+        $email->Host = EMAIL_HOST;
+        $email->SMTPAuth  = true;
+        $email->Username  = EMAIL_NAME;
+        $email->Password  = EMAIL_PASSWORD;
+        $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $email->Port  = EMAIL_PORT;
+        $email->setFrom(EMAIL_NAME, $fromName);
+        $email->addAddress($address, $toName);
+        $email->isHTML(true);
+        $email->Subject = $subject;
+        $email->Body  = $body;
+        $email->AltBody = $body;
+        $email->send();
     }
 }

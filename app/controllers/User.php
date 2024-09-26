@@ -73,8 +73,7 @@ class User
 
       $code = ConfirmEmail::generate(Response::$data[0]["id"]);
       $url = HOST . "confirmaremail/" . $code;
-      $email = new Email(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
-      $email->send();
+      Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
       if (Response::$code == 200) {
         Response::$error = null;
       }
