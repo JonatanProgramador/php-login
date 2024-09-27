@@ -1,8 +1,10 @@
 <?php
+require_once RUTA . "app/models/VerificationCodeModel.php";
 
 class ConfirmarEmail {
     function show($code) {
-        if(ConfirmEmail::confirm($code)) {
+        $codeManager = new CodeManager(new VerificationCodeModel());
+        if($codeManager->confirm($code)) {
             Response::$code = 200;
             Response::$data = null;
             Response::$message = "Confirmado el Email";

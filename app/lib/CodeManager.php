@@ -1,28 +1,30 @@
 <?php
-require_once RUTA . "app/models/VerificationCodeModel.php";
 require_once RUTA . "app/models/UserModel.php";
 
-class ConfirmEmail
+class CodeManager
 {
+    private const TIME = 3;
+    private $model;
 
-
-    public static function generate($user_id)
+    function __construct($model)
     {
-        $TIME = 3;
+        $this->model = $model;
+    }
+
+    public function generate($user_id)
+    {
         $code = bin2hex(random_bytes(10));
         date_default_timezone_set("Europe/Madrid");
         $hora = date_create(date("H:i:s"));
-        $hora->add(DateInterval::createFromDateString($TIME . ' minutes'));
+        $hora->add(DateInterval::createFromDateString(self::TIME . ' minutes'));
         $expire = date("y-m-d") . " " . $hora->format("H:i:s");
-        $model = new VerificationCodeModel();
-        $model->insert(["user_id" => $user_id, "code" => $code, "expire" => $expire]);
+        $this->model->insert(["user_id" => $user_id, "code" => $code, "expire" => $expire]);
         return $code;
     }
 
-    public static function confirm($code)
+    public function confirm($code)
     {
-        $model = new VerificationCodeModel();
-        $model->find(["code" => $code]);
+        $this->model->find(["code" => $code]);
         if (count(Response::$data) > 0) {
             date_default_timezone_set("Europe/Madrid");
             $nowDate = date_create(date("y-m-d H:i:s"));
@@ -30,11 +32,11 @@ class ConfirmEmail
             if ($date > $nowDate) {
                 $user = new UserModel();
                 $user->updateById(Response::$data[0]["user_id"], ["emailConfirm"=>"TRUE"]);
-                $model->delete(["code" => $code]);
+                $this->model->delete(["code" => $code]);
                 return Response::$code == 200;
             }
         }
-        $model->delete(["code" => $code]);
+        $this->model->delete(["code" => $code]);
         return false;
     }
 }

@@ -2,6 +2,7 @@
 require_once RUTA . "app/requests/UserRequest.php";
 require_once RUTA . "app/models/UserModel.php";
 require_once RUTA . "app/resourcers/UserResourcer.php";
+require_once RUTA . "app/models/VerificationCodeModel.php";
 
 class Auth
 {
@@ -23,7 +24,8 @@ class Auth
                         Response::$data = ["id" => $id, "token" => $token, "rol" => $roles];
                         Response::$message = "Contraseña correcta";
                     } else {
-                        $url = HOST."confirmaremail/".ConfirmEmail::generate(Response::$data[0]["id"]);
+                        $codeManager = new CodeManager(new VerificationCodeModel());
+                        $url = HOST."confirmaremail/". $codeManager->generate(Response::$data[0]["id"]);
                         Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
                         Response::$code = 206;
                         Response::$data = null;

@@ -4,6 +4,7 @@ require_once RUTA . "app/requests/UserTokenRequest.php";
 require_once RUTA . "app/models/UserModel.php";
 require_once RUTA . "app/resourcers/UserResourcer.php";
 require_once RUTA . "app/models/RolModel.php";
+require_once RUTA . "app/models/VerificationCodeModel.php";
 
 class User
 {
@@ -70,8 +71,8 @@ class User
       $user->insert($data);
 
       $user->find(["name" => $data["name"]]);
-
-      $code = ConfirmEmail::generate(Response::$data[0]["id"]);
+      $codeManager = new CodeManager(new VerificationCodeModel());
+      $code = $codeManager->generate(Response::$data[0]["id"]);
       $url = HOST . "confirmaremail/" . $code;
       Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
       if (Response::$code == 200) {
