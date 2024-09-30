@@ -25,7 +25,7 @@ class Auth
                         Response::$message = "Contraseña correcta";
                     } else {
                         $codeManager = new CodeManager(new VerificationCodeModel());
-                        $url = HOST."confirmaremail/". $codeManager->generate(Response::$data[0]["id"]);
+                        $url = HOST."confirmaremail/". $codeManager->generate(Response::$data[0]["id"], 10);
                         Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
                         Response::$code = 206;
                         Response::$data = null;

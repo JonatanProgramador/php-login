@@ -17,4 +17,12 @@ class Response
             "error" => Response::$error
         ]));
     }
+
+    public static function empty()
+    {
+        Response::$message = null;
+        Response::$code = null;
+        Response::$data = null;
+        Response::$error = null;
+    }
 }

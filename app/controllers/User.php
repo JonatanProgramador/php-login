@@ -72,7 +72,7 @@ class User
 
       $user->find(["name" => $data["name"]]);
       $codeManager = new CodeManager(new VerificationCodeModel());
-      $code = $codeManager->generate(Response::$data[0]["id"]);
+      $code = $codeManager->generate(Response::$data[0]["id"], 10);
       $url = HOST . "confirmaremail/" . $code;
       Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
       if (Response::$code == 200) {

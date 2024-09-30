@@ -11,9 +11,9 @@ class CodeManager
         $this->model = $model;
     }
 
-    public function generate($user_id)
+    public function generate($user_id, $size)
     {
-        $code = bin2hex(random_bytes(10));
+        $code = bin2hex(random_bytes($size));
         date_default_timezone_set("Europe/Madrid");
         $hora = date_create(date("H:i:s"));
         $hora->add(DateInterval::createFromDateString(self::TIME . ' minutes'));

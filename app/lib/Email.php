@@ -5,15 +5,26 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 
-require_once RUTA. "app/PHPMailer/src/PHPMailer.php";
-require_once RUTA. "app/PHPMailer/src/Exception.php";
-require_once RUTA. "app/PHPMailer/src/SMTP.php";
+require_once RUTA . "app/PHPMailer/src/PHPMailer.php";
+require_once RUTA . "app/PHPMailer/src/Exception.php";
+require_once RUTA . "app/PHPMailer/src/SMTP.php";
+require_once RUTA . "app/models/UserModel.php";
 
 
 class Email
 {
-    
-    public static function send($fromName, $address, $toName, $subject, $body) {
+
+    public static function validateEmail($email)
+    {
+        $user = new UserModel();
+        $user->find(["email" => $email]);
+        $id = Response::$data[0]["id"];
+        Response::empty();
+        return $id;
+    }
+
+    public static function send($fromName, $address, $toName, $subject, $body)
+    {
         $email = new PHPMailer();
         $email->isSMTP();
         $email->Host = EMAIL_HOST;
