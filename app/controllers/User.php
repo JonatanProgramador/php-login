@@ -11,12 +11,12 @@ class User
   public static function index(): void
   {
     $user = new UserModel();
-   
+
     if (Token::compareToken()) {
       if (Rol::compareRol(Response::$data[0]["user_id"], "admin")) {
         $user->get();
         $users_data = Response::$data;
-        Response::$data = array_map(function($value) {
+        Response::$data = array_map(function ($value) {
           $value["rols"] = Rol::getRol($value["id"]);
           return $value;
         }, $users_data);
@@ -41,7 +41,7 @@ class User
     if (Token::compareToken()) {
       if (Response::$data[0]["user_id"] == $id) {
         $user->findById($id);
-        $user_data = Response::$data; 
+        $user_data = Response::$data;
         $user_data[0]["rols"] = Rol::getRol($id);
         Response::$data = $user_data;
         $resourcer = new UserResourcer();
@@ -68,17 +68,26 @@ class User
       $user = new UserModel();
       $data = json_decode(file_get_contents('php://input'), true);
       $data["password"] = hash("sha256", $data["password"]);
+
       $user->insert($data);
 
-      $user->find(["name" => $data["name"]]);
-      $codeManager = new CodeManager(new VerificationCodeModel());
-      $code = $codeManager->generate(Response::$data[0]["id"], 10);
-      $url = HOST . "confirmaremail/" . $code;
-      Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
       if (Response::$code == 200) {
-        Response::$error = null;
+
+        $user->find(["name" => $data["name"]]);
+        print_r(Response::$data);
+        $codeManager = new CodeManager(new VerificationCodeModel());
+        $code = $codeManager->generate(Response::$data[0]["id"], 10);
+        $url = HOST . "confirmaremail/" . $code;
+
+        Email::send(Response::$data[0]["name"], Response::$data[0]["email"], "Confirm Email", "Confirmar email", $url);
+        if (Response::$code == 200) {
+          Response::$error = null;
+        }
+        Response::$data = null;
+      } else {
+        Response::$code = 500;
+        Response::$message = "Error al insertar user";
       }
-      Response::$data = null;
     } else {
       Response::$code = 500;
       Response::$message = "Datos no validos";

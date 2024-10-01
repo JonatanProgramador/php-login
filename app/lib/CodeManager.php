@@ -30,13 +30,13 @@ class CodeManager
             $nowDate = date_create(date("y-m-d H:i:s"));
             $date = date_create(Response::$data[0]["expire"]);
             if ($date > $nowDate) {
-                $user = new UserModel();
-                $user->updateById(Response::$data[0]["user_id"], ["emailConfirm"=>"TRUE"]);
+                $user_id = Response::$data[0]["user_id"];
                 $this->model->delete(["code" => $code]);
-                return Response::$code == 200;
+                Response::empty();
+                return $user_id ;
             }
         }
         $this->model->delete(["code" => $code]);
-        return false;
+        return "";
     }
 }
