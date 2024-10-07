@@ -28,4 +28,24 @@ class ResetPassword
         }
         Response::send();
     }
+
+    public static function update($code) :void
+    {
+        $codeManager = new CodeManager(new ResetPassCodeModel);
+        $user_id = $codeManager->confirm($code);
+        $passwrod = json_decode(file_get_contents('php://input'), true)["password"];
+
+        if(!empty($user_id) && !empty($passwrod)) {
+            $user = new UserModel();
+            $user->updateById($user_id, ["password" => hash("sha256", $passwrod)]);
+            Response::empty();
+            Response::$code = 200;
+            Response::$data = "Se a restablecido la contraseña."; 
+        } else {
+            Response::empty();
+            Response::$code = 500;
+            Response::$data = "error en el codigo";
+        }
+        Response::send();
+    }
 }
