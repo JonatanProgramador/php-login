@@ -40,11 +40,11 @@ class ResetPassword
             $user->updateById($user_id, ["password" => hash("sha256", $passwrod)]);
             Response::empty();
             Response::$code = 200;
-            Response::$data = "Se a restablecido la contraseña."; 
+            Response::$message = "Se a restablecido la contraseña."; 
         } else {
             Response::empty();
             Response::$code = 500;
-            Response::$data = "error en el codigo";
+            Response::$message = "error en el codigo";
         }
         Response::send();
     }
